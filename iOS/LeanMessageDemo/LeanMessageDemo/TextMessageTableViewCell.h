@@ -11,8 +11,11 @@
 #import "TextMessageFrame.h"
 
 @interface TextMessageTableViewCell : UITableViewCell
-@property (nonatomic, strong) TextMessageFrame *textMessageFrame;
 
+@property (nonatomic, strong) TextMessageFrame *textMessageFrame;
 //@property (strong,nonatomic) AVIMTextMessage *textMessage;
-- (instancetype)initWithIsMe:(BOOL)isMe;
+
+//- (instancetype)initWithIsMe:(BOOL)isMe;
++ (instancetype)cellWithTableView:(UITableView *)tableView isMe:(BOOL)isMe;
+
 @end

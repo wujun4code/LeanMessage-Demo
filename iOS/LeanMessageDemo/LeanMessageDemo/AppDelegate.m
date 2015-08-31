@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-
+#import "UIViewController+Swizzled.h"
 //#define kApplicationId @"uay57kigwe0b6f5n0e1d4z4xhydsml3dor24bzwvzr57wdap"
 //#define kClientKey @"kfgz7jjfsk55r5a8a3y4ttd3je1ko11bkibcikonk32oozww"
 
@@ -23,6 +23,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+      SWIZZ_IT;
     // 初始化 LeanCloud SDK 
     [AVOSCloud setApplicationId:kApplicationId clientKey:kClientKey];
 #ifdef DEBUG

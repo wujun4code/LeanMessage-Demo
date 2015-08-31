@@ -7,7 +7,9 @@
 //
 
 #import "TextMessageTableViewCell.h"
-
+@interface TextMessageTableViewCell()
+@property (nonatomic, assign) BOOL isMe;
+@end
 @implementation TextMessageTableViewCell
 //-(void)setTextMessage:(AVIMTextMessage *)textMessage{
 //    _textMessage = textMessage;
@@ -15,26 +17,52 @@
 - (void)awakeFromNib {
     // Initialization code
 }
--(instancetype)init{
-    self = [super init];
-    if (self) {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"MessageTableCells" owner:nil options:nil];
-        
-        self =  [nib objectAtIndex:0];
-    }
-    return self;
-}
+//-(instancetype)init{
+//    self = [super init];
+//    if (self) {
+//        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"MessageTableCells" owner:nil options:nil];
+//
+//        self =  [nib objectAtIndex:0];
+//    }
+//    return self;
+//}
 
-- (instancetype)initWithIsMe:(BOOL)isMe{
-    self = [super init];
-    if (self) {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"MessageTableCells" owner:nil options:nil];
-        if(isMe)
-             self =  [nib objectAtIndex:1];
-        else
-            self= [nib objectAtIndex:0];
+//- (instancetype)initWithIsMe:(BOOL)isMe{
+//    self = [super init];
+//    if (self) {
+//        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"MessageTableCells" owner:nil options:nil];
+//        _isMe = isMe;
+//        if(isMe)
+//             self =  [nib objectAtIndex:1];
+//        else
+//            self= [nib objectAtIndex:0];
+//    }
+//    return self;
+//}
+
++ (instancetype)cellWithTableView:(UITableView *)tableView isMe:(BOOL)isMe
+{
+    static NSString *CellIdentifier;
+    static NSString *CellNib = @"MessageTableCells";
+    if (isMe) {
+        CellIdentifier = @"LeftTextMessageTableViewCell";
+    } else {
+        CellIdentifier = @"RightTextMessageTableViewCell";
     }
-    return self;
+    
+    TextMessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        /*
+         * 从 xib 文件中加载 View
+         */
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:CellNib owner:self options:nil];
+        if(isMe) {
+            cell = (TextMessageTableViewCell *)[nib objectAtIndex:1];
+        } else {
+            cell = (TextMessageTableViewCell *)[nib objectAtIndex:0];
+        }
+    }
+    return cell;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -42,24 +70,9 @@
     
     // Configure the view for the selected state
 }
+
 - (void)setTextMessageFrame:(TextMessageFrame *)textMessageFrame {
     _textMessageFrame = textMessageFrame;
-    
-//    self.messageSenderClientId.text = textMessageFrame.message.clientId;
-//    self.messageSenderClientId.frame = textMessageFrame.clientIdFrame;
-//    
-//    self.textMessageContentTextView.text = textMessageFrame.message.messageContent.text;
-//    self.textMessageContentTextView.frame = textMessageFrame.messageContentFrame;
 }
 
-- (void)setFrame:(CGRect)frame
-{
-    frame.origin.x = AVCellBorderWidth;
-    frame.size.width -= 2 * AVCellBorderWidth;
-    
-    frame.origin.y += AVCellBorderWidth;
-    frame.size.height -= AVCellMargin;
-    
-    [super setFrame:frame];
-}
 @end

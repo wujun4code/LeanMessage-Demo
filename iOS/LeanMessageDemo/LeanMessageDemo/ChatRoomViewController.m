@@ -32,8 +32,18 @@
         [self initMessageToolBar];
         // 查询最近的 10 条聊天记录
         [conversation queryMessagesWithLimit:kPageSize callback:^(NSArray *objects, NSError *error) {
+            
             // 刷新 Tabel 控件，为其添加数据源
-            [self.messages addObjectsFromArray:objects];
+            NSMutableArray *mutableArray = [NSMutableArray array];
+            [objects enumerateObjectsUsingBlock:^(AVIMTypedMessage *message, NSUInteger idx, BOOL *stop) {
+                TextMessageFrame *messageFrame = [[TextMessageFrame alloc] init];
+                TextMessage *textMessage = [[TextMessage alloc] init];
+                textMessage.messageContent = message;
+                textMessage.clientId = message.clientId;
+                messageFrame.message = textMessage;
+                [mutableArray addObject:messageFrame];
+            }];
+            [self.messages addObjectsFromArray:mutableArray];
             [self.messageTableView reloadData];
         }];
     }];

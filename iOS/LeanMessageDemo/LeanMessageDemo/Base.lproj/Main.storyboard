@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="jXC-d4-tbU">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D131" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="jXC-d4-tbU">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8135.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -31,7 +30,6 @@
                         <viewControllerLayoutGuide type="bottom" id="2z8-oJ-DsL"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kh9-bI-dsS">
-
                         <rect key="frame" x="0.0" y="0.0" width="320" height="474"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
@@ -101,11 +99,10 @@
             </objects>
             <point key="canvasLocation" x="201" y="213.99999999999997"/>
         </scene>
-
         <!--广场-->
         <scene sceneID="rfg-i3-PyO">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="yBv-Io-kTP" customClass="BaseChatViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="yBv-Io-kTP" customClass="ChatRoomViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LgN-qC-Eg6"/>
                         <viewControllerLayoutGuide type="bottom" id="f4P-QJ-CjE"/>
@@ -138,10 +135,9 @@
             </objects>
             <point key="canvasLocation" x="579" y="213.99999999999997"/>
         </scene>
-        <!--View Controller-->
+        <!--Single Chat View Controller-->
         <scene sceneID="Xg3-gQ-xBq">
             <objects>
-
                 <viewController automaticallyAdjustsScrollViewInsets="NO" id="LKo-Vt-yon" customClass="SingleChatViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="OFB-Zy-oa3"/>
@@ -179,11 +175,15 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </scrollView>
             </objects>
-
             <point key="canvasLocation" x="955" y="213.99999999999997"/>
         </scene>
     </scenes>
     <resources>
         <image name="Icon" width="60" height="60"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

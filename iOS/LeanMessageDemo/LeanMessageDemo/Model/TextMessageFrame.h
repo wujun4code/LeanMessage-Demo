@@ -11,6 +11,11 @@
 extern CGFloat const AVCellBorderWidth;
 //单元格之间的间隙，最底端控件距离底部的距离
 extern CGFloat const AVCellMargin;
+#define UI_SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
+// 昵称
+#define AVClientIDFont [UIFont systemFontOfSize:17]
+#define AVMessageContentTextViewContentFont [UIFont systemFontOfSize:14]
+
 #import "TextMessage.h"
 #import <Foundation/Foundation.h>
 
@@ -22,7 +27,7 @@ extern CGFloat const AVCellMargin;
 @property(nonatomic, assign, readonly) CGRect messageContentFrame;
 /** cell的高度 */
 @property (nonatomic, assign, readonly) CGFloat cellHeight;
-
 @property (nonatomic, strong ,readwrite) TextMessage *message;
+@property (nonatomic ,assign, readwrite) BOOL isMe;
 
 @end

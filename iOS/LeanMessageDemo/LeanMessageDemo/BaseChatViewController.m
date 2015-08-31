@@ -50,7 +50,6 @@ typedef enum : NSUInteger {
     self.messageTableView.backgroundColor = [UIColor redColor];
     self.messageTableView.dataSource = self;
     self.messageTableView.delegate = self;
-//    NSAssert(!self.messageTableView, @"messageTableView is nil !!!");
     /**
      *  初始化页面上的控件
      */
@@ -69,10 +68,12 @@ typedef enum : NSUInteger {
     
     //[self.messageTableView removeFromSuperview];
 }
+
 - (void)handleSingleTap:(UITapGestureRecognizer *)recognizer {
     [self.messageToolBar.messageInputTextField resignFirstResponder];
     NSLog(@"sdd");
 }
+
 // 接收消息的回调函数
 - (void)conversation:(AVIMConversation *)conversation didReceiveTypedMessage:(AVIMTypedMessage *)message {
     
@@ -108,7 +109,6 @@ typedef enum : NSUInteger {
         TextMessageFrame *messageFrame = [[TextMessageFrame alloc] init];
         TextMessage *textMessage = [[TextMessage alloc] init];
         textMessage.messageContent = message;
-        NSLog(@"🔴类名与方法名：%s（在第%d行），描述：%@", __PRETTY_FUNCTION__, __LINE__, message.content);
         textMessage.clientId = message.clientId;
         messageFrame.message = textMessage;
         [weakSelf.messages addObject:messageFrame];
@@ -161,7 +161,6 @@ typedef enum : NSUInteger {
 }
 #pragma Refresh Control getter
 - (void)loadHistoryMessages:(UIRefreshControl *)refreshControl {
-    
     /**
      * 下拉 Table View 的时候，从服务端获取更多的消息记录。
      */
@@ -178,7 +177,6 @@ typedef enum : NSUInteger {
                 if (count == 0) {
                     NSLog(@"no more old message");
                 } else {
-                    
                     // 将更早的消息记录插入到 Tabel View 的顶部
                     NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:
                                            NSMakeRange(0,[objects count])];
@@ -188,13 +186,10 @@ typedef enum : NSUInteger {
                         TextMessageFrame *messageFrame = [[TextMessageFrame alloc] init];
                         TextMessage *textMessage = [[TextMessage alloc] init];
                         textMessage.messageContent = message;
-                        NSLog(@"🔴类名与方法名：%s（在第%d行），描述：%@", __PRETTY_FUNCTION__, __LINE__, message.content);
                         textMessage.clientId = message.clientId;
                         messageFrame.message = textMessage;
                         [mutableArray addObject:messageFrame];
                     }];
-                    
-                    
                     [self.messages insertObjects:mutableArray atIndexes:indexes];
                     [self.messageTableView reloadData];
                 }
@@ -202,14 +197,14 @@ typedef enum : NSUInteger {
         }];
     }
 }
+
 #pragma Draw Table
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.messages.count;
 }
+
 -(CGFloat)tableView:(nonnull UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     TextMessageFrame *frame = self.messages[indexPath.row];
-    // http://is.gd/Xcodelog
-    NSLog(@"🔴类名与方法名：%s（在第%d行），描述：%@", __PRETTY_FUNCTION__, __LINE__, @(frame.cellHeight));
     return frame.cellHeight;
 }
 
@@ -220,7 +215,6 @@ typedef enum : NSUInteger {
     /**
      * 绘画 Tabel View Cell 控件
      */
-
     TextMessageFrame *textMessageFrame= self.messages[indexPath.row];
     AVIMMessage *message = textMessageFrame.message.messageContent;
 
@@ -230,13 +224,8 @@ typedef enum : NSUInteger {
         AVIMTypedMessage *typedMessage=(AVIMTypedMessage*)message;
         switch (typedMessage.mediaType) {
             case  kAVIMMessageMediaTypeText: {
-
-                
-                AVIMTextMessage *textMessage=(AVIMTextMessage*)typedMessage;
-                TextMessageTableViewCell *textCell=[[TextMessageTableViewCell alloc] initWithIsMe:isMe];
-//                textCell.textMessage = textMessage;
+                TextMessageTableViewCell *textCell=[TextMessageTableViewCell cellWithTableView:tableView isMe:isMe];
                 textCell.textMessageFrame = textMessageFrame;
-
                 return textCell;
             }
                 break;
@@ -253,6 +242,5 @@ typedef enum : NSUInteger {
     }
     return  cell;
 }
-#pragma mark - actions
 
 @end

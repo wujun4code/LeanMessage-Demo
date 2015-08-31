@@ -20,18 +20,15 @@
 //    // 显示文本消息的内容setAttributedText
 //    [self.textMessageContentTextView setAttributedText:[[NSMutableAttributedString alloc] initWithString:textMessage.text]];
 //}
+
 - (void)awakeFromNib {
     // Initialization code
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
 - (void)setTextMessageFrame:(TextMessageFrame *)textMessageFrame {
-    _textMessageFrame = textMessageFrame;
-    
+    [super setTextMessageFrame:textMessageFrame];
+    textMessageFrame.isMe = NO;
+
     self.messageSenderClientId.text = textMessageFrame.message.clientId;
     self.messageSenderClientId.frame = textMessageFrame.clientIdFrame;
     
