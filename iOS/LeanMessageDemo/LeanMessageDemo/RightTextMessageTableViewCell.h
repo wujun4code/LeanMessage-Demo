@@ -11,7 +11,9 @@
 #import "TextMessageTableViewCell.h"
 
 @interface RightTextMessageTableViewCell : TextMessageTableViewCell
-@property (strong, nonatomic) IBOutlet UITextView *textMessageContentTextView;
+//@property (strong, nonatomic) IBOutlet UITextView *textMessageContentTextView;
+@property (strong, nonatomic) IBOutlet UILabel *textMessageContentTextView;
+
 @property (strong, nonatomic) IBOutlet UILabel *messageSenderClientId;
 
 @end

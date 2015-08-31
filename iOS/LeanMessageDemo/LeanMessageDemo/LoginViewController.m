@@ -20,7 +20,8 @@
     
     self.fruitIconImage.clipsToBounds = YES;
     self.fruitIconImage.layer.cornerRadius=5;
-    
+    self.clientIdTextFiled.returnKeyType = UIReturnKeyGo;
+    self.clientIdTextFiled.delegate = self;
     UITapGestureRecognizer *singleFingerTap =
     [[UITapGestureRecognizer alloc] initWithTarget:self
                                             action:@selector(handleSingleTap:)];
@@ -64,5 +65,19 @@
 }
 - (IBAction)inputingClientId:(id)sender {
     
+}
+
+- (void)touchesBegan:(UITouch *)touches withEvent:(nullable UIEvent *)event {
+    [self.view.window endEditing:YES];
+}
+- (BOOL) textFieldShouldReturn:(UITextField *)textField
+{
+    // Tell the keyboard where to go on next / go button.
+//    if(textField == self.clientIdTextFiled)
+//    {
+        [self onLoginButtonClicked:nil];
+//    }
+    
+    return YES;
 }
 @end

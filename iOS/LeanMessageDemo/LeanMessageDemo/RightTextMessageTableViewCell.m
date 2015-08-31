@@ -9,15 +9,17 @@
 #import "RightTextMessageTableViewCell.h"
 
 @implementation RightTextMessageTableViewCell
--(void)setTextMessage:(AVIMTextMessage *)textMessage{
-    
-    [super setTextMessage:textMessage];
-    // 显示该条消息的发送者的 ClientId
-    self.messageSenderClientId.text = textMessage.clientId;
-    
-    // 显示文本消息的内容setAttributedText
-    [self.textMessageContentTextView setAttributedText:[[NSMutableAttributedString alloc] initWithString:textMessage.text]];
-}
+@synthesize textMessageFrame = _textMessageFrame;
+
+//-(void)setTextMessage:(AVIMTextMessage *)textMessage{
+//    
+//    [super setTextMessage:textMessage];
+//    // 显示该条消息的发送者的 ClientId
+//    self.messageSenderClientId.text = textMessage.clientId;
+//    
+//    // 显示文本消息的内容setAttributedText
+//    [self.textMessageContentTextView setAttributedText:[[NSMutableAttributedString alloc] initWithString:textMessage.text]];
+//}
 - (void)awakeFromNib {
     // Initialization code
 }
@@ -27,5 +29,13 @@
 
     // Configure the view for the selected state
 }
-
+- (void)setTextMessageFrame:(TextMessageFrame *)textMessageFrame {
+    _textMessageFrame = textMessageFrame;
+    
+    self.messageSenderClientId.text = textMessageFrame.message.clientId;
+    self.messageSenderClientId.frame = textMessageFrame.clientIdFrame;
+    
+    self.textMessageContentTextView.text = textMessageFrame.message.messageContent.text;
+    self.textMessageContentTextView.frame = textMessageFrame.messageContentFrame;
+}
 @end

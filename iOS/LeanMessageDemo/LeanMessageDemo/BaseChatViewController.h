@@ -29,6 +29,8 @@ static NSInteger kPageSize = 5;
 @property (nonatomic, strong) AVIMClient *imClient;
 @property (nonatomic,strong) AVIMConversation *currentConversation;
 @property (nonatomic,strong) MessageToolBarView *messageToolBar;
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 -(void)initMessageToolBar;
+
 @end
