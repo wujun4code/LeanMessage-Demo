@@ -1,29 +1,32 @@
 package com.leancloud.im.guide;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.im.v2.AVIMClient;
 import com.avos.avoscloud.im.v2.AVIMConversation;
 import com.avos.avoscloud.im.v2.AVIMConversationQuery;
+import com.avos.avoscloud.im.v2.AVIMException;
 import com.avos.avoscloud.im.v2.Conversation;
 import com.avos.avoscloud.im.v2.callback.AVIMClientCallback;
+import com.avos.avoscloud.im.v2.callback.AVIMConversationCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationCreatedCallback;
 import com.avos.avoscloud.im.v2.callback.AVIMConversationQueryCallback;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by zhangxiaobo on 15/4/16.
  */
-public class ConversationActivity extends ActionBarActivity implements View.OnClickListener {
+public class ConversationActivity extends BaseActivity implements View.OnClickListener {
   // 这是使用中国节点时使用的 对话 id。如果不使用美国节点，请 uncomment 这一行。
   public static final String CONVERSATION_ID = "551a2847e4b04d688d73dc54";
   private static final String TAG = ConversationActivity.class.getSimpleName();
@@ -42,7 +45,7 @@ public class ConversationActivity extends ActionBarActivity implements View.OnCl
     clientIdTextView = (TextView) findViewById(R.id.client_id);
     otherIdEditText = (EditText) findViewById(R.id.otherIdEditText);
 
-    clientIdTextView.setText(getString(R.string.welcome) + " "+Application.getClientIdFromPre());
+    clientIdTextView.setText(getString(R.string.welcome) + " " + Application.getClientIdFromPre());
 
     findViewById(R.id.join_conversation).setOnClickListener(this);
 
@@ -58,24 +61,33 @@ public class ConversationActivity extends ActionBarActivity implements View.OnCl
         finish();
         break;
       case R.id.join_conversation:
-        ChatActivity.startActivity(ConversationActivity.this,
-            CONVERSATION_ID);
+        AVIMConversation conversation = Application.getIMClient().getConversation(CONVERSATION_ID);
+        if (conversation.getMembers().contains(Application.getClientIdFromPre())) {
+          ChatActivity.startActivity(ConversationActivity.this,
+              CONVERSATION_ID);
+        } else {
+          conversation.join(new AVIMConversationCallback() {
+            @Override
+            public void done(AVIMException e) {
+              if (filterException(e)) {
+                ChatActivity.startActivity(ConversationActivity.this,
+                    CONVERSATION_ID);
+              }
+            }
+          });
+        }
         break;
       case R.id.chat_with_other:
         String otherId = otherIdEditText.getText().toString();
         if (!TextUtils.isEmpty(otherId)) {
-          fetchConversationWithClientIds(Arrays.asList(otherId), ConversationType.OneToOne, new
-              AVIMConversationCreatedCallback
-                  () {
-                @Override
-                public void done(AVIMConversation conversation, AVException e) {
-                  if (e != null) {
-                    Toast.makeText(ConversationActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                  } else {
-                    ChatActivity.startActivity(ConversationActivity.this, conversation.getConversationId());
-                  }
-                }
-              });
+          fetchConversationWithClientIds(Arrays.asList(otherId), ConversationType.OneToOne, new AVIMConversationCreatedCallback() {
+            @Override
+            public void done(AVIMConversation avimConversation, AVIMException e) {
+              if (filterException(e)) {
+                ChatActivity.startActivity(ConversationActivity.this, avimConversation.getConversationId());
+              }
+            }
+          });
         }
         break;
     }
@@ -85,7 +97,7 @@ public class ConversationActivity extends ActionBarActivity implements View.OnCl
   AVIMConversationCreatedCallback
       callback) {
     final AVIMClient imClient = Application.getIMClient();
-    final List<String> queryClientIds = new ArrayList<>();
+    final List<String> queryClientIds = new ArrayList<String>();
     queryClientIds.addAll(clientIds);
     if (!clientIds.contains(imClient.getClientId())) {
       queryClientIds.add(imClient.getClientId());
@@ -95,12 +107,12 @@ public class ConversationActivity extends ActionBarActivity implements View.OnCl
     query.whereContainsAll(Conversation.COLUMN_MEMBERS, queryClientIds);
     query.findInBackground(new AVIMConversationQueryCallback() {
       @Override
-      public void done(List<AVIMConversation> list, AVException e) {
+      public void done(List<AVIMConversation> list, AVIMException e) {
         if (e != null) {
           callback.done(null, e);
         } else {
           if (list == null || list.size() == 0) {
-            Map<String, Object> attributes = new HashMap<>();
+            Map<String, Object> attributes = new HashMap<String, Object>();
             attributes.put(ConversationType.KEY_ATTRIBUTE_TYPE, type.getValue());
             imClient.createConversation(queryClientIds, attributes, callback);
           } else {
@@ -116,7 +128,7 @@ public class ConversationActivity extends ActionBarActivity implements View.OnCl
     super.onDestroy();
     Application.getIMClient().close(new AVIMClientCallback() {
       @Override
-      public void done(AVIMClient avimClient, AVException e) {
+      public void done(AVIMClient avimClient, AVIMException e) {
         if (e == null) {
           Log.d(TAG, "退出连接");
         } else {
