@@ -7,39 +7,23 @@
 //
 
 #import "TextMessageTableViewCell.h"
-@interface TextMessageTableViewCell()
-@property (nonatomic, assign) BOOL isMe;
-@end
+
 @implementation TextMessageTableViewCell
-//-(void)setTextMessage:(AVIMTextMessage *)textMessage{
-//    _textMessage = textMessage;
-//}
+-(void)setTextMessage:(AVIMTextMessage *)textMessage{
+    _textMessage = textMessage;
+}
 - (void)awakeFromNib {
     // Initialization code
 }
-//-(instancetype)init{
-//    self = [super init];
-//    if (self) {
-//        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"MessageTableCells" owner:nil options:nil];
-//
-//        self =  [nib objectAtIndex:0];
-//    }
-//    return self;
-//}
-
-//- (instancetype)initWithIsMe:(BOOL)isMe{
-//    self = [super init];
-//    if (self) {
-//        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"MessageTableCells" owner:nil options:nil];
-//        _isMe = isMe;
-//        if(isMe)
-//             self =  [nib objectAtIndex:1];
-//        else
-//            self= [nib objectAtIndex:0];
-//    }
-//    return self;
-//}
-
+-(instancetype)init{
+    self = [super init];
+    if (self) {
+        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"MessageTableCells" owner:nil options:nil];
+        
+        self =  [nib objectAtIndex:0];
+    }
+    return self;
+}
 + (instancetype)cellWithTableView:(UITableView *)tableView isMe:(BOOL)isMe
 {
     static NSString *CellIdentifier;
@@ -69,10 +53,6 @@
     [super setSelected:selected animated:animated];
     
     // Configure the view for the selected state
-}
-
-- (void)setTextMessageFrame:(TextMessageFrame *)textMessageFrame {
-    _textMessageFrame = textMessageFrame;
 }
 
 @end

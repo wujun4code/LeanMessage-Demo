@@ -8,14 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <AVOSCloudIM.h>
-#import "TextMessageFrame.h"
 
 @interface TextMessageTableViewCell : UITableViewCell
-
-@property (nonatomic, strong) TextMessageFrame *textMessageFrame;
-//@property (strong,nonatomic) AVIMTextMessage *textMessage;
-
-//- (instancetype)initWithIsMe:(BOOL)isMe;
+@property (strong,nonatomic) AVIMTextMessage *textMessage;
 + (instancetype)cellWithTableView:(UITableView *)tableView isMe:(BOOL)isMe;
-
 @end
